@@ -1,0 +1,79 @@
+#
+# ~/.bashrc
+#
+
+# Pi connect info
+# mkdir pi
+# sshfs voylin@pi.local:/home/voylin ~/pi
+# sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 voylin@pi.local:/home/voylin ~/pi
+
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+#export SSH_ASKPASS=/dev/null
+#eval "$(ssh-agent -s)"
+#ssh-add ~/.ssh/conoha-voylins-servers.key
+
+git_branch() {
+	git rev-parse --abbrev-ref HEAD 2> /dev/null
+}
+
+git_repo() {
+	local url
+	url=$(git config --get remote.origin.url 2>/dev/null) || return
+
+	basename "$url" .git
+}
+
+PS1() {
+  local git_branch=$(git_branch)
+  local git_repo=$(git_repo)
+
+
+  if [ -n "$git_branch" ]; then
+    if [ "$git_repo" = "youtube" ]; then
+      # If the repo is 'youtube', don't display the branch name
+      PS1='(\[\033[01;32m\]'"$git_repo"'\[\033[00m\])[\W]\$ '
+    else
+      # Display both the repo and the branch name
+      PS1='(\[\033[01;32m\]'"$git_repo"'-'"$git_branch"'\[\033[00m\])[\W]\$ '
+    fi
+  else
+    PS1='[\u@\h \W]\$ '
+  fi
+}
+
+PROMPT_COMMAND='PS1'
+
+#PS1='[\u@\h \W]\$ '
+export ANDROID_NDK=/home/voylin/Android/Sdk/ndk/23.2.8568313
+export ANDROID_HOME=/home/voylin/.android/sdk
+export PATH=$PATH:/home/voylin/Android/Sdk/cmdline-tools/latest/bin/
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+alias vim='nvim'
+alias vvim='vim .'
+alias gvim='vim . --listen 127.0.0.1:6004'
+
+export FZF_DEFAULT_OPTS='--color=light'
+alias search='cd "$(find . -mindepth 1 -maxdepth 2 -type d | fzf)"'
+alias psearch='cd "$(find /extra_storage/programming -mindepth 1 -maxdepth 2 -type d | fzf)"'
+alias ysearch='cd "$(find ~/pi/youtube/ -mindepth 1 -maxdepth 1 -type d -not -path "*.git*" | fzf)" && vvim'
+
+alias vsearch='cd "$(find . -mindepth 1 -maxdepth 2 -type f | fzf"'
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
+alias dotfiles_lazygit='GIT_DIR=$HOME/dotfiles GIT_WORK_TREE=$HOME lazygit'
+alias dotfiles_show_untracked='dotfiles config --local status.showUntrackedFiles all'
+alias dotfiles_hide_untracked='dotfiles config --local status.showUntrackedFiles no'
+
+#alias yt='yt-dlp -f "bestvideo[vcodec^=avc1]+bestaudio/best"'
+yt() {
+  local url="$1"
+  local output="${2:-output.mp4}"
+
+  yt-dlp -o - "$url" | ffmpeg -i pipe:0 -g 30 -c:v libx264 -preset fast -crf 18 -c:a copy "$output"
+}

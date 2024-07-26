@@ -1,0 +1,8 @@
+gui:
+  splitDiff: never
+  showCommandLog: false
+  mainPanelSplitMode: 'vertical'
+
+keybinding:
+  universal:
+    quit: "q"
