@@ -14,6 +14,11 @@ exec --no-startup-id nvidia-settings --assign CurrentMetaMode="nvidia-auto-selec
 exec --no-startup-id xfce4-clipman
 exec --no-startup-id flameshot
 
+
+# Startup program
+exec --no-startup-id i3-msg workspace 4;chromium
+
+
 # PulseAudio controls.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
@@ -76,6 +81,7 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
+set $ws9 "9"
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -84,6 +90,7 @@ bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -92,6 +99,7 @@ bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Ctrl+1 move container to workspace number $ws1; Workspace $ws1 
 bindsym $mod+Ctrl+2 move container to workspace number $ws2; Workspace $ws2
 bindsym $mod+Ctrl+3 move container to workspace number $ws3; Workspace $ws3
@@ -100,6 +108,7 @@ bindsym $mod+Ctrl+5 move container to workspace number $ws5; Workspace $ws5
 bindsym $mod+Ctrl+6 move container to workspace number $ws6; Workspace $ws6
 bindsym $mod+Ctrl+7 move container to workspace number $ws7; Workspace $ws7
 bindsym $mod+Ctrl+8 move container to workspace number $ws8; Workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace number $ws9; Workspace $ws9
 
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
@@ -143,8 +152,6 @@ mode "$mode_system" {
    bindsym Return mode "default"
    bindsym Escape mode "default"
 }
-
-bindsym $mod+9 exec --no-startup-id i3lock -c 002300
 
 #for_window [class="^.*"] border pixel 4
 #for_window [title="*"] border pixel 4

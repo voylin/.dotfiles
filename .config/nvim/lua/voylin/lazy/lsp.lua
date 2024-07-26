@@ -43,7 +43,9 @@ return {
 						capabilities = capabilities,
 						settings = {
 							Lua = {
-								runtime = { version = 'Lua 5.1' },
+								runtime = {
+									version = 'Lua 5.1'
+								},
 								diagnostics = {
 									globals = { 'vim', 'it', 'describe', 'before_each', 'after_each' },
 								}
@@ -55,7 +57,9 @@ return {
 		})
 
 		require('lspconfig').gdscript.setup({ capabilities = capabilities })
-		vim.keymap.set('n', '<leader>sg', function() vim.fn.serverstart '127.0.0.1:6004' end, { noremap = true })
+		vim.keymap.set('n', '<leader>sg', function()
+			vim.fn.serverstart '127.0.0.1:6004'
+		end, { noremap = true })
 
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
@@ -84,7 +88,7 @@ return {
 				end, { 'i', 's', }),
 				['<CR>'] = cmp.mapping({
 					i = function(fallback)
-					-- This little snippet will confirm selection with enter, and if no entry is selected, will add new line
+						-- This little snippet will confirm selection with enter, and if no entry is selected, will add new line
 						if cmp.visible() and cmp.get_active_entry() then
 							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
 						else
