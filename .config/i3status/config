@@ -1,0 +1,32 @@
+general {
+        colors = true
+        interval = 5
+	output_format = "i3bar"
+	color_good = "#09FF29"
+	color_degraded = "#FFFF00"
+	color_bad = "#FF0000"
+}
+
+order += "volume master"
+order += "ethernet _first_"
+order += "wireless _first_"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = " W:%quality "
+        format_down = ""
+}
+
+ethernet _first_ {
+        format_up = "E:%speed"
+        format_down = ""
+}
+
+volume master {
+        format = "♪: %volume "
+	format_muted = ""
+}
+
+tztime local {
+        format = " %Y-%m-%d  %H:%M:%S %a"
+}
