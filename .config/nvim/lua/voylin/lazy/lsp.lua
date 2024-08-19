@@ -53,6 +53,16 @@ return {
 						}
 					}
 				end,
+				['clangd'] = function()
+					local lspconfig = require('lspconfig')
+					lspconfig.clangd.setup({
+						cmd = {
+							"clangd",
+							"--header-insertion=never",
+						},
+						capabilities = capabilities,
+					})
+				end,
 			}
 		})
 

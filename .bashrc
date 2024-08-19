@@ -21,7 +21,7 @@ PS1() {
   local git_branch=$(git_branch)
   if [ -n "$git_branch" ]; then
 	  local git_repo=$(git_repo)
-	  PS1='(\[\033[01;32m\]'"$git_repo"'-'"$git_branch"'\[\033[00m\])[\u@\h \W]\$ '
+	  PS1='(\[\033[01;32m\]'"$git_repo"'-'"$git_branch"'\[\033[00m\])[\W]\$ '
   else
     PS1='[\u@\h \W]\$ '
   fi
@@ -38,7 +38,6 @@ alias vim='nvim'
 alias vvim='nvim .'
 
 alias vimgodot='vvim --listen 127.0.0.1:6004'
-alias gozen_vim='cd /storage/programming/GoZen && vim_godot' 
 
 alias tmuxopen='tmux a -t '
 alias tmuxnew_session='tmux new-session -s '
