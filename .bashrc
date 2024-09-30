@@ -19,9 +19,17 @@ git_repo() {
 
 PS1() {
   local git_branch=$(git_branch)
+  local git_repo=$(git_repo)
+
+
   if [ -n "$git_branch" ]; then
-	  local git_repo=$(git_repo)
-	  PS1='(\[\033[01;32m\]'"$git_repo"'-'"$git_branch"'\[\033[00m\])[\W]\$ '
+    if [ "$git_repo" = "youtube" ]; then
+      # If the repo is 'youtube', don't display the branch name
+      PS1='(\[\033[01;32m\]'"$git_repo"'\[\033[00m\])[\W]\$ '
+    else
+      # Display both the repo and the branch name
+      PS1='(\[\033[01;32m\]'"$git_repo"'-'"$git_branch"'\[\033[00m\])[\W]\$ '
+    fi
   else
     PS1='[\u@\h \W]\$ '
   fi
@@ -44,7 +52,7 @@ alias tmuxnew_session='tmux new-session -s '
 
 alias search='cd "$(find . -mindepth 1 -maxdepth 2 -type d | fzf)"'
 alias psearch='cd "$(find /storage/programming -mindepth 1 -maxdepth 2 -type d | fzf)"'
-alias ysearch='cd "$(find /storage/Youtube -mindepth 1 -maxdepth 1 -type d | fzf)"'
+alias ysearch='cd "$(find /storage/youtube -mindepth 1 -maxdepth 1 -type d | fzf)"'
 
 alias vsearch='cd "$(find . -mindepth 1 -maxdepth 2 -type f | fzf"'
 

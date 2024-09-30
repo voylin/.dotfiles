@@ -5,7 +5,7 @@ return {
 		'nvim-lua/plenary.nvim'
 	},
 	config = function()
-		require('telescope').setup({ defaults = { file_ignore_patterns = {"gde_gozen", "ffmpeg"} } })
+		require('telescope').setup({ defaults = { file_ignore_patterns = {"ffmpeg"} } })
 		local builtin = require('telescope.builtin')
 
 		vim.keymap.set('n', '<leader>pf', builtin.find_files, {})

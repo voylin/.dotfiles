@@ -3,13 +3,22 @@
 		"OpenXRAction",
 		"OpenXRActionMap",
 		"OpenXRActionSet",
+		"OpenXRCompositionLayer",
+		"OpenXRHand",
 		"OpenXRIPBinding",
 		"OpenXRInteractionProfile",
-		"X509Certificate"
+		"VideoStream",
+		"VideoStreamPlayback",
+		"VisualShaderNode",
+		"X509Certificate",
+		"XRBodyModifier3D",
+		"XRFaceModifier3D",
+		"XRHandModifier3D",
+		"XRNode3D",
+		"XROrigin3D"
 	],
 	"disabled_editors": [],
 	"disabled_features": [
-		"3d",
 		"asset_lib",
 		"history_dock"
 	],
