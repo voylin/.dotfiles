@@ -1,0 +1,151 @@
+### Variables
+set $mod Mod1
+floating_modifier $mod normal
+
+
+### Startup
+exec --no-startup-id flameshot
+exec --no-startup-id fcitx5
+exec --no-startup-id nm-applet
+exec --no-startup-id copyq
+
+
+exec swaymsg workspace 4; exec chromium
+
+
+### Key bindings
+bindsym $mod+Return exec foot
+bindsym $mod+c exec chromium
+bindsym $mod+d exec wofi --show=drun
+bindsym $mod+shift+d exec wofi --show=run
+bindsym Print exec flameshot gui --raw | wl-copy
+bindsym shift+Print exec flameshot gui
+
+bindsym $mod+shift+t exec --no-startup-id ~/switch_theme.sh
+bindsym $mod+shift+m exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
+
+bindsym $mod+Shift+r reload
+
+bindsym $mod+q kill
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+f fullscreen
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Control+1 move container to workspace number 1;workspace number 1
+bindsym $mod+Control+2 move container to workspace number 2;workspace number 2
+bindsym $mod+Control+3 move container to workspace number 3;workspace number 3
+bindsym $mod+Control+4 move container to workspace number 4;workspace number 4
+bindsym $mod+Control+5 move container to workspace number 5;workspace number 5
+bindsym $mod+Control+6 move container to workspace number 6;workspace number 6
+bindsym $mod+Control+7 move container to workspace number 7;workspace number 7
+bindsym $mod+Control+8 move container to workspace number 8;workspace number 8
+bindsym $mod+Control+9 move container to workspace number 9;workspace number 9
+
+### Scratchpad:
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+
+### Resizing containers:
+mode "resize" {
+    bindsym h resize shrink width 2px
+    bindsym j resize grow height 2px
+    bindsym k resize shrink height 2px
+    bindsym l resize grow width 2px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+	bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+### Utilities
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -2%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +2%
+bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+
+set $mode_system (l)ock, (e)xit, (s)uspend, (r)reboot, (shift+s)hutdown
+
+mode "$mode_system" {
+	bindsym l exec swaylock -c 002300, mode "default"
+   	bindsym e exec swaymsg exit, mode "default"
+   	bindsym s exec systemctl suspend, mode "default"
+   	bindsym r exec reboot, mode "default"
+   	bindsym Shift+s exec systemctl poweroff -i, mode "default"
+
+   	bindsym Return mode "default"
+   	bindsym Escape mode "default"
+}
+bindsym $mod+0 mode "$mode_system"
+
+
+### Styling
+default_border pixel 3
+default_floating_border pixel 2
+hide_edge_borders none
+smart_borders on
+
+client.focused #00FF00 #277732 #FFFFFF #2FF43C #46FF46
+
+bar {
+	swaybar_command waybar
+}
+
+
+### Input config
+input type:keyboard {
+	xkb_layout jp
+}
+
+
+### Some includes which need to be set manually
+include /etc/sway/config.d/*
+
+set $XDG_CURRENT_DESKTOP sway
+set $QT_QPA_PLATFORMTHEME gtk3
+exec systemctl --user set-environment QT_QPA_PLATFORMTHEME=gtk3
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --all
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY QT_QPA_PLATFORMTHEME=gtk3
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+
+
+### Idle configuration
+exec swayidle -w \
+timeout 900 'swaylock -f -c 002300' \
+timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+before-sleep 'swaylock -f -c 002300'
+
