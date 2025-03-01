@@ -1,6 +1,7 @@
 require('voylin.set')
 require('voylin.remap')
 require('voylin.lazy_init')
+require('voylin.markdown')
 
 local augroup = vim.api.nvim_create_augroup
 local VoylinGroup = augroup('Voylin', {})
@@ -34,4 +35,3 @@ autocmd('LspAttach', {
 		vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 	end
 })
-
