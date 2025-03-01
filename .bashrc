@@ -37,7 +37,9 @@ PS1() {
 
 PROMPT_COMMAND='PS1'
 
+
 #PS1='[\u@\h \W]\$ '
+export ANDROID_NDK=/opt/android-ndk
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -45,15 +47,14 @@ alias grep='grep --color=auto'
 alias vim='nvim'
 alias vvim='nvim .'
 
-alias vimgodot='vvim --listen 127.0.0.1:6004'
+alias gvim='vvim --listen 127.0.0.1:6004'
 
-alias tmuxopen='tmux a -t '
-alias tmuxnew_session='tmux new-session -s '
-
+export FZF_DEFAULT_OPTS='--color=light'
 alias search='cd "$(find . -mindepth 1 -maxdepth 2 -type d | fzf)"'
-alias psearch='cd "$(find /storage/programming -mindepth 1 -maxdepth 2 -type d | fzf)"'
-alias ysearch='cd "$(find /storage/youtube -mindepth 1 -maxdepth 1 -type d | fzf)"'
+alias psearch='cd "$(find /extra_storage/programming -mindepth 1 -maxdepth 2 -type d | fzf)"'
+alias ysearch='cd "$(find /storage/youtube/scripts -mindepth 1 -maxdepth 1 -type d -not -path "*.git*" | fzf)" && vvim'
 
 alias vsearch='cd "$(find . -mindepth 1 -maxdepth 2 -type f | fzf"'
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
+alias dotfiles_lazygit='GIT_DIR=$HOME/dotfiles GIT_WORK_TREE=$HOME lazygit'
