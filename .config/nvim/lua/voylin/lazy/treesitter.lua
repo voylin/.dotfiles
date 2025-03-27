@@ -5,6 +5,8 @@ return {
 		require('nvim-treesitter.configs').setup({
 			ensure_installed = {
 				'rust',
+				'yaml',
+				'markdown',
 				'gdscript',
 				'godot_resource',
 				'gdshader',
@@ -20,7 +22,8 @@ return {
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = {
-					'markdown'
+					'markdown',
+					'yaml'
 				},
 			},
 			indent = {

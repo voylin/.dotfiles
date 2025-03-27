@@ -70,7 +70,8 @@ TERM = "xterm-256color"
 size = 16
 
 [font.normal]
-family = "monospace"
+#family = "Source Code Pro"
+family = "hack"
 style = "Medium"
 
 #[cursor.style]
