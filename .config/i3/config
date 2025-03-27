@@ -44,8 +44,7 @@ bindsym $mod+F4 exec kdenlive
 bindsym $mod+shift+Kanji exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
 
 bindsym shift+Print exec scrot /storage/Pictures/%Y-%m-%d_%H-%M-%S.png
-bindsym Print exec flameshot gui
-
+bindsym Print exec "flameshot gui && xdotool getactivewindow windowfocus"
 
 bindsym $mod+b split h
 bindsym $mod+v split v
