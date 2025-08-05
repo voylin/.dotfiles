@@ -39,7 +39,8 @@ PROMPT_COMMAND='PS1'
 
 
 #PS1='[\u@\h \W]\$ '
-export ANDROID_NDK=/opt/android-ndk
+export ANDROID_NDK=/home/voylin/.android/sdk/ndk
+export ANDROID_HOME=/home/voylin/.android/sdk
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'

@@ -60,6 +60,11 @@ return {
 							"clangd",
 							"--header-insertion=never",
 						},
+						init_options = {
+							completion = {
+								includeInsertText = false,
+							},
+						},
 						capabilities = capabilities,
 					})
 				end,
