@@ -2,6 +2,9 @@
 set $mod Mod4
 tiling_drag off 
 
+
+font pango:Hack 9 
+
 # Move current window to scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
@@ -41,10 +44,9 @@ bindsym $mod+F3 exec thunar
 bindsym $mod+F4 exec kdenlive
 #bindsym $mod+F5 exec /opt/jetbrains-toolbox-2.0.4.17212/jetbrains-toolbox
 
-# Elecom Mouse
+# Elecom HUGE Trackball Mouse
 bindsym --whole-window button10 exec --no-startup-id xdotool key ctrl+k
 bindsym --whole-window button11 exec --no-startup-id xdotool key Delete
-bindsym --whole-window button12 exec --no-startup-id xdotool click 2
 
 bindsym $mod+shift+Kanji exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
 

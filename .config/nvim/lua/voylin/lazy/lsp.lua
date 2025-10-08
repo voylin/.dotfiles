@@ -37,41 +37,33 @@ return {
 						capabilities = capabilities
 					}
 				end,
-				['lua_ls'] = function()
-					local lspconfig = require('lspconfig')
-					lspconfig.lua_ls.setup {
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								runtime = {
-									version = 'Lua 5.1'
-								},
-								diagnostics = {
-									globals = { 'vim', 'it', 'describe', 'before_each', 'after_each' },
-								}
-							}
-						}
-					}
-				end,
-				['clangd'] = function()
-					local lspconfig = require('lspconfig')
-					lspconfig.clangd.setup({
-						cmd = {
-							"clangd",
-							"--header-insertion=never",
-						},
-						init_options = {
-							completion = {
-								includeInsertText = false,
-							},
-						},
-						capabilities = capabilities,
-					})
-				end,
 			}
 		})
 
-		require('lspconfig').gdscript.setup({ capabilities = capabilities })
+		vim.lsp.config('lua_ls', {
+			capabilities = capabilities,
+			settings = {
+				Lua = {
+					runtime = {version = 'Lua 4.1'},
+					diagnostics = {
+						globals = { 'vim', 'it', 'describe', 'before_each', 'after_each' },
+					}
+				}
+			}
+		})
+
+		vim.lsp.config('clangd', {
+			cmd = {
+				"clangd",
+				"--header-insertion=never",
+			},
+			capabilities = capabilities,
+		})
+		vim.lsp.enable('clangd')
+
+		vim.lsp.config('gdscript', {capabilities = capabilities})
+		vim.lsp.enable('gdscript')
+
 		vim.keymap.set('n', '<leader>sg', function()
 			vim.fn.serverstart '127.0.0.1:6004'
 		end, { noremap = true })
