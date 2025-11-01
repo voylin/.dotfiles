@@ -1,18 +1,30 @@
 #!/bin/bash
 
-CONFIG=~/.config/gtk-3.0/settings.ini
+GTK3_CONFIG="$HOME/.config/gtk-3.0/settings.ini"
+GTK4_CONFIG="$HOME/.config/gtk-4.0/settings.ini"
 
-if grep -q "gtk-theme-name=Breeze-Dark" "$CONFIG"; then
-    sed -i 's/Breeze-Dark/Breeze/' "$CONFIG"
-	gsettings set org.gnome.desktop.interface gtk-theme "Breeze"
-	gsettings set org.gnome.desktop.interface gtk4-theme "Breeze"
-	gsettings set org.gnome.desktop.interface icon-theme "Papirus"
-    gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
+# Get current theme
+current=$(gsettings get org.gnome.desktop.interface gtk-theme | tr -d "'")
+
+if [[ "$current" == "Breeze-Dark" ]]; then
+    new="Breeze"
+    icon="Papirus"
+    color="prefer-light"
 else
-    sed -i 's/Breeze/Breeze-Dark/' "$CONFIG"
-	gsettings set org.gnome.desktop.interface gtk-theme "Breeze-Dark"
-	gsettings set org.gnome.desktop.interface gtk4-theme "Breeze-Dark"
-	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+    new="Breeze-Dark"
+    icon="Papirus-Dark"
+    color="prefer-dark"
 fi
 
+# Apply to gsettings
+gsettings set org.gnome.desktop.interface gtk-theme "$new"
+gsettings set org.gnome.desktop.interface icon-theme "$icon"
+gsettings set org.gnome.desktop.interface color-scheme "$color"
+
+# Sync to GTK config files (for apps not respecting gsettings)
+for cfg in "$GTK3_CONFIG" "$GTK4_CONFIG"; do
+    if [[ -f "$cfg" ]]; then
+        sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$new/" "$cfg"
+        sed -i "s/^gtk-icon-theme-name=.*/gtk-icon-theme-name=$icon/" "$cfg"
+    fi
+done

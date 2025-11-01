@@ -35,3 +35,6 @@ autocmd('LspAttach', {
 		vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 	end
 })
+
+vim.g.netrw_sort_sequence = "[.]$,[\\/ ]$,*"
+vim.g.netrw_sort_options = "i"

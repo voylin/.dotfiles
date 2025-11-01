@@ -12,6 +12,7 @@ return {
 		'L3MON4D3/LuaSnip',
 		'saadparwaiz1/cmp_luasnip',
 		'j-hui/fidget.nvim',
+		'mfussenegger/nvim-jdtls',
 	},
 	config = function()
 		local cmp = require('cmp')
@@ -44,7 +45,7 @@ return {
 			capabilities = capabilities,
 			settings = {
 				Lua = {
-					runtime = {version = 'Lua 4.1'},
+					runtime = { version = 'Lua 4.1' },
 					diagnostics = {
 						globals = { 'vim', 'it', 'describe', 'before_each', 'after_each' },
 					}
@@ -61,7 +62,7 @@ return {
 		})
 		vim.lsp.enable('clangd')
 
-		vim.lsp.config('gdscript', {capabilities = capabilities})
+		vim.lsp.config('gdscript', { capabilities = capabilities })
 		vim.lsp.enable('gdscript')
 
 		vim.keymap.set('n', '<leader>sg', function()
@@ -76,11 +77,20 @@ return {
 					require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 				end,
 			},
+			completion = {
+				autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged }, -- 🔧 auto retrigger
+			},
 			mapping = cmp.mapping.preset.insert({
 				['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
 				['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
 				['<C-y>'] = cmp.mapping.confirm({ select = true }),
 				['<S-Space>'] = cmp.mapping.complete(),
+--				['<BS>'] = cmp.mapping(function(fallback)
+--					-- Retrigger after backspace.
+--					cmp.close()
+--					fallback()
+--					vim.defer_fn(function() cmp.complete() end, 100)
+--				end, { 'i', 's' }),
 				['<Tab>'] = cmp.mapping(function(fallback)
 					-- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
 					if cmp.visible() then
@@ -108,7 +118,6 @@ return {
 			}),
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
-			}, {
 				{ name = 'buffer' },
 			})
 		})

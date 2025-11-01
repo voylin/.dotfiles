@@ -1,105 +1,50 @@
-# Mod1 is Alt, Mod4 is super.
 set $mod Mod4
-tiling_drag off 
+floating_modifier $mod
 
-# Scratchpad.
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-
-# System tray.
-exec fcitx5 -d --replace
-exec --no-startup-id swayidle -w \
-    timeout 300 'swaylock -c 002300' \
-    timeout 600 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -c 002300'
-exec --no-startup-id flameshot
-exec --no-startup-id xfce4-clipman
-
-# Startup program.
-exec swaymsg 'workspace number 4; exec chromium'
-
-# Input.
-input * {
-    xkb_layout jp
+bar {
+    swaybar_command waybar
+}
+input "type:keyboard" {
+	xkb_layout jp
 }
 
-# PulseAudio controls.
+# Startup
+exec --no-startup-id fcitx5
+exec --no-startup-id flameshot
+exec --no-startup-id swaymsg workspace 4 && chromium
+
+# Keybinds
+bindsym $mod+Return exec alacritty
+bindsym $mod+d exec wofi --show drun
+bindsym $mod+c exec chromium
+bindsym $mod+shift+t exec --no-startup-id ~/switch_theme.sh
+
+# Japanese
+bindsym $mod+shift+Kanji exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
+
+# Print
+bindsym shift+Print exec scrot /storage/Pictures/%Y-%m-%d_%H-%M-%S.png
+bindsym Print exec flameshot gui
+
+# Elecom HUGE Trackball Mouse
+bindsym --whole-window BTN_FORWARD exec wtype -M ctrl -P k -p k -m ctrl
+bindsym --whole-window BTN_BACK exec wtype -k delete
+# BTN_TASK was done through evdev
+# libinput list-devices | grep -A 20 "ELECOM"
+# sudo evtest /dev/input/event7
+# /etc/udev/hwdb.d/71-elecom-trackball.hwdb
+#		evdev:input:b0003v056Ep019B*
+#			KEYBOARD_KEY_90008=btn_middle
+# sudo systemd-hwdb update
+# sudo udevadm trigger --subsystem-match=input
+
+# Sound
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 
-floating_modifier $mod
-
-bindsym $mod+Return exec alacritty
+bindsym $mod+Shift+r reload
 bindsym $mod+q kill
-bindsym $mod+shift+d exec --no-startup-id dmenu_run -i -fn 'Hack-13.5' -sb '#047700' -p 'System: ' 
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'Hack-13.5' -i -sb '#047700' -p 'Menu: '"
-bindsym $mod+shift+t exec --no-startup-id ~/switch_theme_wayland.sh
-
-bindsym $mod+c exec chromium
-bindsym $mod+F1 exec alacritty 
-bindsym $mod+F2 exec godot
-bindsym $mod+F3 exec thunar
-bindsym $mod+F4 exec kdenlive
-#bindsym $mod+F5 exec /opt/jetbrains-toolbox-2.0.4.17212/jetbrains-toolbox
-
-# Elecom HUGE Trackball Mouse
-bindsym --whole-window BTN_FORWARD exec --no-startup-id xdotool key ctrl+k
-bindsym --whole-window BTN_BACK exec --no-startup-id xdotool key Delete
-bindsym --whole-window BTN_TASK exec --no-startup-id xdotool mouse 2
-
-bindsym $mod+shift+Kanji exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
-
-bindsym shift+Print exec scrot /storage/Pictures/%Y-%m-%d_%H-%M-%S.png
-bindsym Print exec "flameshot gui && xdotool getactivewindow windowfocus"
-
-bindsym $mod+b split h
-bindsym $mod+v split v
-bindsym $mod+f fullscreen toggle
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+e layout toggle split
-
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Ctrl+1 move container to workspace number 1; Workspace 1 
-bindsym $mod+Ctrl+2 move container to workspace number 2; Workspace 2
-bindsym $mod+Ctrl+3 move container to workspace number 3; Workspace 3
-bindsym $mod+Ctrl+4 move container to workspace number 4; Workspace 4
-bindsym $mod+Ctrl+5 move container to workspace number 5; Workspace 5
-bindsym $mod+Ctrl+6 move container to workspace number 6; Workspace 6
-bindsym $mod+Ctrl+7 move container to workspace number 7; Workspace 7
-bindsym $mod+Ctrl+8 move container to workspace number 8; Workspace 8
-bindsym $mod+Ctrl+9 move container to workspace number 9; Workspace 9
-
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
 
 mode "resize" {
 	bindsym Left resize shrink width 2 px or 2 ppt
@@ -116,52 +61,92 @@ mode "resize" {
 	bindsym Escape mode "default"
 	bindsym $mod+r mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
-set $Locker i3lock -c 002300 && sleep 1
+set $Locker swaylock -f -c 002300
 set $mode_system (l)ock, (e)xit, (s)uspend, (r)reboot, (shift+s)hutdown
-
 mode "$mode_system" {
    bindsym l exec --no-startup-id $Locker, mode "default"
    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-   bindsym e exec --no-startup-id i3-msg exit, mode "default"
+   bindsym e exec --no-startup-id swaymsg exit, mode "default"
    bindsym r exec --no-startup-id reboot, mode "default"
    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
 
    bindsym Return mode "default"
    bindsym Escape mode "default"
 }
-
 bindsym $mod+0 mode "$mode_system"
 
+# Styling
+smart_borders on
+hide_edge_borders none
 default_border pixel 3
 default_floating_border pixel 2
-hide_edge_borders none
-smart_borders on
-#new_float pixel 2
-
-
-#Color.
 client.focused #00FF00 #277732 #FFFFFF #2FF43C #46FF46
 
-bar {
-   position top
-   status_command i3status
-   font pango:Hack 9 
+# Window controls
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+e layout split
 
-   colors {
-      background #000000
-      statusline #00FF2A
-      separator #00FF22
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
-      focused_workspace #00FF00 #00FF00 #000000
-      active_workspace #000000 #000000 #00FF00
-      inactive_workspace #000000 #000000 #00FF00
-      urgent_workspace #900000 #900000 #00FF00
-      binding_mode #900000 #900000 #00FF00
-   }
-}
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+
+bindsym $mod+Ctrl+1 move container to workspace number 1; Workspace 1 
+bindsym $mod+Ctrl+2 move container to workspace number 2; Workspace 2
+bindsym $mod+Ctrl+3 move container to workspace number 3; Workspace 3
+bindsym $mod+Ctrl+4 move container to workspace number 4; Workspace 4
+bindsym $mod+Ctrl+5 move container to workspace number 5; Workspace 5
+bindsym $mod+Ctrl+6 move container to workspace number 6; Workspace 6
+bindsym $mod+Ctrl+7 move container to workspace number 7; Workspace 7
+bindsym $mod+Ctrl+8 move container to workspace number 8; Workspace 8
+bindsym $mod+Ctrl+9 move container to workspace number 9; Workspace 9
+
+# Window rules
+for_window [window_type="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [app_id="xdg-desktop-portal-lxqt"] floating enable, move position center
+
+for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] floating enable
+for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] resize set 800 600
+for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] move position center
 
 # Cleanup commands:
 # sudo pacman -Rns $(pacman -Qtdq)

@@ -1,8 +1,5 @@
-#if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-#	startx
-#fi
+#
+# ~/.bash_profile
+#
 
-export QT_QPA_PLATFORMTHEME=gtk3
-export XDG_CURRENT_DESKTOP=sway
-export XDG_DESKTOP_PLATFORM=sway
-
+[[ -f ~/.bashrc ]] && . ~/.bashrc

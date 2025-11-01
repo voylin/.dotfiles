@@ -1,0 +1,14 @@
+KERNEL=="event*", SUBSYSTEM=="input", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="eb2d", MODE="0660", TAG+="uaccess"
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="eb2d", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="input", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="eb2d", MODE="0660", GROUP="input"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="eb2d", MODE="0660", GROUP="input"
+
+
+Add this file to
+sudo nano /etc/udev/rules.d/99-lily58.rules
+to make key remapping work.
+run
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+And disconnect + reconnect keyboard
+
