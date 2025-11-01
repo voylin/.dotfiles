@@ -13,6 +13,9 @@ exec --no-startup-id fcitx5
 exec --no-startup-id flameshot
 exec --no-startup-id swaymsg workspace 4 && chromium
 
+exec_always export QT_QPA_PLATFORMTHEME=gtk3
+exec_always gsettings set org.gnome.desktop.interface font-name 'Source Han Sans JP 10'
+
 # Keybinds
 bindsym $mod+Return exec alacritty
 bindsym $mod+d exec wofi --show drun
@@ -143,6 +146,8 @@ bindsym $mod+Ctrl+9 move container to workspace number 9; Workspace 9
 for_window [window_type="dialog"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [app_id="xdg-desktop-portal-lxqt"] floating enable, move position center
+for_window [app_id="thunar" title=".*Progress.*"] floating enable
+for_window [app_id="thunar" title=".*Confirm.*"] floating enable
 
 for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] floating enable
 for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] resize set 800 600
