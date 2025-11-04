@@ -22,7 +22,6 @@ SpacesInAngles: false
 SpacesInCStyleCastParentheses: false
 SpacesBeforeTrailingComments: 1
 SpaceBeforeAssignmentOperators: true
-SpaceAroundOperators: true
 
 PointerAlignment: Left
 ColumnLimit: 120
@@ -34,7 +33,8 @@ IncludeCategories:
   - Regex: '^<'
     Priority: 2
 SortIncludes: true
-#IncludeBlocks: Preserve  # keeps your intentional blank lines
 
-# Extra vertical spacing tweaks
-SeparateDefinitionBlocks: Always
+SeparateDefinitionBlocks: Leave
+MaxEmptyLinesToKeep: 3
+AllowShortFunctionsOnASingleLine: None
+

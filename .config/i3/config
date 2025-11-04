@@ -2,7 +2,6 @@
 set $mod Mod4
 tiling_drag off 
 
-
 font pango:Hack 9 
 
 # Move current window to scratchpad
@@ -139,7 +138,6 @@ default_floating_border pixel 2
 hide_edge_borders none
 smart_borders on
 new_float pixel 2
-
 
 #Color
 client.focused #00FF00 #277732 #FFFFFF #2FF43C #46FF46
