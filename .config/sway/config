@@ -11,13 +11,23 @@ input "type:keyboard" {
 # Startup
 exec --no-startup-id fcitx5
 exec --no-startup-id flameshot
-exec --no-startup-id swaymsg workspace 4 && chromium
+exec --no-startup-id swaymsg workspace 4
+#exec --no-startup-id swaymsg workspace 4 && chromium
 
-exec_always export QT_QPA_PLATFORMTHEME=gtk3
+#exec_always export QT_QPA_PLATFORMTHEME=gtk4
+#exec_always export QT_QPA_PLATFORM=wayland
+#exec_always export GTK_USE_PORTAL=1
+# native = 0
+
 exec_always export XMODIFIERS=@im=fcitx
 exec_always export QT_IM_MODULE=fcitx
 exec_always export GTK_IM_MODULE=fcitx
 exec_always gsettings set org.gnome.desktop.interface font-name 'Source Han Sans JP 10'
+exec_always {
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+    systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+    systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
+}
 
 # Keybinds
 bindsym $mod+Return exec alacritty
@@ -151,6 +161,7 @@ for_window [window_role="pop-up"] floating enable
 for_window [app_id="xdg-desktop-portal-lxqt"] floating enable, move position center
 for_window [app_id="thunar" title=".*Progress.*"] floating enable
 for_window [app_id="thunar" title=".*Confirm.*"] floating enable
+for_window [app_id="thunar" title=".*Rename.*"] floating enable
 
 for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] floating enable
 for_window [title="(?: Open|Save) (?:File|Folder|As|file\(s\))"] resize set 800 600
