@@ -15,12 +15,17 @@ exec --no-startup-id lxsession
 exec --no-startup-id flameshot
 exec --no-startup-id picom
 exec --no-startup-id xfce4-clipman
+exec --no-startup-id pasystray
+exec --no-startup-id systemctl --user start dunst
 
 # Input methods
 exec --no-startup-id fcitx5
 
 # Startup program
 exec --no-startup-id i3-msg workspace 4;chromium
+
+# So pc doesn't go to sleep
+exec --no-startup-id xset s off -dpms
 
 # PulseAudio controls.
 set $refresh_i3status killall -SIGUSR1 i3status

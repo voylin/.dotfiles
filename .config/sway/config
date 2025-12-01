@@ -14,15 +14,18 @@ exec --no-startup-id flameshot
 exec --no-startup-id swaymsg workspace 4
 #exec --no-startup-id swaymsg workspace 4 && chromium
 
-#exec_always export QT_QPA_PLATFORMTHEME=gtk4
-#exec_always export QT_QPA_PLATFORM=wayland
-#exec_always export GTK_USE_PORTAL=1
-# native = 0
+exec_always {
+	export QT_QPA_PLATFORMTHEME=gtk3
+	export QT_QPA_PLATFORM=wayland
+	export GTK_USE_PORTAL=1
 
-exec_always export XMODIFIERS=@im=fcitx
-exec_always export QT_IM_MODULE=fcitx
-exec_always export GTK_IM_MODULE=fcitx
-exec_always gsettings set org.gnome.desktop.interface font-name 'Source Han Sans JP 10'
+	export XMODIFIERS=@im=fcitx
+	export QT_IM_MODULE=fcitx
+	export GTK_IM_MODULE=fcitx
+
+	gsettings set org.gnome.desktop.interface font-name 'Source Han Sans JP 10'
+}
+
 exec_always {
     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
     systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP

@@ -20,6 +20,7 @@ fi
 gsettings set org.gnome.desktop.interface gtk-theme "$new"
 gsettings set org.gnome.desktop.interface icon-theme "$icon"
 gsettings set org.gnome.desktop.interface color-scheme "$color"
+gsettings set org.gnome.desktop.interface gtk-dialogs-use-header "false"
 
 # Sync to GTK config files (for apps not respecting gsettings)
 for cfg in "$GTK3_CONFIG" "$GTK4_CONFIG"; do
