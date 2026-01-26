@@ -85,12 +85,12 @@ return {
 				['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
 				['<C-y>'] = cmp.mapping.confirm({ select = true }),
 				['<S-Space>'] = cmp.mapping.complete(),
---				['<BS>'] = cmp.mapping(function(fallback)
---					-- Retrigger after backspace.
---					cmp.close()
---					fallback()
---					vim.defer_fn(function() cmp.complete() end, 100)
---				end, { 'i', 's' }),
+				--				['<BS>'] = cmp.mapping(function(fallback)
+				--					-- Retrigger after backspace.
+				--					cmp.close()
+				--					fallback()
+				--					vim.defer_fn(function() cmp.complete() end, 100)
+				--				end, { 'i', 's' }),
 				['<Tab>'] = cmp.mapping(function(fallback)
 					-- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
 					if cmp.visible() then
