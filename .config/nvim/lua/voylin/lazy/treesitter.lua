@@ -3,6 +3,8 @@ return {
 	build = ':TSUpdate',
 	dependencies = {
 		'nvim-treesitter/nvim-treesitter-textobjects',
+		'nvim-treesitter/playground',
+
 		{
 			"nvim-treesitter/nvim-treesitter-context",
 			opts = {
@@ -49,6 +51,8 @@ return {
 					goto_next_end       = { ["]m"] = "@function.outer" },
 					goto_previous_start = { ["[["] = "@function.outer" },
 					goto_previous_end   = { ["[m"] = "@function.outer" },
+					goto_next_start     = { ["]b"] = "@block.outer", },
+					goto_previous_start = { ["[b"] = "@block.outer", },
 				},
 			},
 		})
