@@ -47,3 +47,8 @@ vim.keymap.set('n', '<leader>S', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
 vim.keymap.set('n', '<leader>g', ':LazyGit<CR>')
+
+-- Show hide listchars
+vim.keymap.set("n", "<leader>l", function()
+	vim.opt.list = not vim.opt.list:get()
+end, { desc = "Toggle listchars" })

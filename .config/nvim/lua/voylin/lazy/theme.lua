@@ -1,5 +1,6 @@
 return {
 	"voylin/godot_color_theme",
+	name = "godot_color_theme",
 	priority = 1000,
 	config = function()
 		require("godot_theme").setup({

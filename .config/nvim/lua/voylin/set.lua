@@ -37,8 +37,15 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.inccommand = 'split'
 
---vim.opt.list = true
---vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = true
+vim.opt.listchars = {
+	tab = '»  ',
+	leadmultispace = '≈   ',
+	trail = '·',
+	extends = '›',
+	precedes = '‹',
+	nbsp = '␣'
+}
 
 vim.opt.scrolloff = 10
 vim.opt.cursorline = true
@@ -47,4 +54,8 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
-vim.g.netrw_keepdir= 1
+vim.g.netrw_keepdir = 1
+
+vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
+  underline = true,
+})
