@@ -2,10 +2,6 @@ require('voylin.set')
 require('voylin.remap')
 require('voylin.lazy_init')
 require('voylin.markdown')
-require('voylin.godot_theme').setup({
-	is_modern = false,
-	contrast = 0.2,
-})
 
 
 local augroup = vim.api.nvim_create_augroup
