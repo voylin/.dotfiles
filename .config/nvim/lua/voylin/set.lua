@@ -56,6 +56,3 @@ vim.g.loaded_node_provider = 0
 
 vim.g.netrw_keepdir = 1
 
-vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
-  underline = true,
-})
