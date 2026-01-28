@@ -3,13 +3,18 @@ require('voylin.remap')
 require('voylin.lazy_init')
 require('voylin.markdown')
 
+-- Remove trailing spaces and tabs on save.
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = "*",
+	command = [[%s/\s\+$//e]],
+})
 
 local augroup = vim.api.nvim_create_augroup
 local VoylinGroup = augroup('Voylin', {})
 local autocmd = vim.api.nvim_create_autocmd
 
 function R(name)
-    require('plenary.reload').reload_module(name)
+	require('plenary.reload').reload_module(name)
 end
 
 autocmd('LspAttach', {
