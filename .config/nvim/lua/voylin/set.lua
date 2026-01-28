@@ -48,6 +48,7 @@ vim.opt.listchars = {
 }
 
 vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 10
 vim.opt.cursorline = true
 
 vim.g.loaded_ruby_provider = 0

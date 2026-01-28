@@ -51,8 +51,6 @@ return {
 					goto_next_end       = { ["]m"] = "@function.outer" },
 					goto_previous_start = { ["[["] = "@function.outer" },
 					goto_previous_end   = { ["[m"] = "@function.outer" },
-					goto_next_start     = { ["]b"] = "@block.outer", },
-					goto_previous_start = { ["[b"] = "@block.outer", },
 				},
 			},
 		})
