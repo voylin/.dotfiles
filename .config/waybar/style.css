@@ -1,0 +1,54 @@
+* {
+    border: none;
+    font-family: Hack, monospace;
+    font-size: 10pt;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #000000;
+    color: #09FF29;
+}
+
+#workspaces button {
+    color: #09FF29;
+    background: #000000;
+    padding: 0 4px;
+}
+
+#workspaces button.focused {
+  border-radius: 0;
+  background: #09FF29;
+  color: black;
+  box-shadow: none;
+}
+
+#workspaces button:hover {
+	border: none;
+	  box-shadow: none;
+}
+
+#pulseaudio, #network, #clock {
+    padding: 0 10px;
+}
+
+#pulseaudio.muted {
+    color: #FF0000;
+}
+
+#mode {
+    background-color: #900000;
+    color: #00FF00;
+    padding: 0 6px;
+    border-radius: 0;
+}
+
+/* Optional yellow for degraded status (you can script this later) */
+.warning, .degraded {
+    color: #FFFF00;
+}
+
+/* Red for critical (low battery, disconnected, etc.) */
+.critical {
+    color: #FF0000;
+}

@@ -48,8 +48,6 @@ alias grep='grep --color=auto'
 alias vim='nvim'
 alias vvim='nvim .'
 
-alias gvim='vvim --listen 127.0.0.1:6004'
-
 export FZF_DEFAULT_OPTS='--color=light'
 alias search='cd "$(find . -mindepth 1 -maxdepth 2 -type d | fzf)"'
 alias psearch='cd "$(find /extra_storage/programming -mindepth 1 -maxdepth 2 -type d | fzf)"'
@@ -59,3 +57,5 @@ alias vsearch='cd "$(find . -mindepth 1 -maxdepth 2 -type f | fzf"'
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
 alias dotfiles_lazygit='GIT_DIR=$HOME/dotfiles GIT_WORK_TREE=$HOME lazygit'
+alias dotfiles_show_untracked='dotfiles config --local status.showUntrackedFiles all'
+alias dotfiles_hide_untracked='dotfiles config --local status.showUntrackedFiles no'

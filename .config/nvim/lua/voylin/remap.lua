@@ -1,9 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
-vim.keymap.set('n', '<leader>pV', vim.cmd.Rex)
-
 -- Insert escaping
 vim.keymap.set('i', 'jj', '<Esc>')
 
@@ -37,10 +34,6 @@ vim.keymap.set('v', '<leader>y', '\"+y')
 vim.keymap.set('n', '<leader>yap', '\"+yap')
 vim.keymap.set('v', '<leader>yap', '\"+yap')
 
-vim.keymap.set('n', '<leader>f', function()
-	vim.lsp.buf.format()
-end)
-
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('n', '<leader>S', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]])
 
@@ -52,3 +45,12 @@ vim.keymap.set('n', '<leader>g', ':LazyGit<CR>')
 vim.keymap.set("n", "<leader>l", function()
 	vim.opt.list = not vim.opt.list:get()
 end, { desc = "Toggle listchars" })
+
+-- Disabling tabs
+vim.keymap.set('n', '<C-t>', '<Nop>')
+vim.keymap.set('n', 'gt', '<Nop>')
+vim.keymap.set('n', 'gT', '<Nop>')
+
+-- Commenting
+vim.keymap.set('n', '<leader>c', 'gc', { remap = true })
+vim.keymap.set('v', '<leader>c', 'gc', { remap = true })

@@ -1,18 +1,28 @@
 return {
 	'nvim-telescope/telescope.nvim',
-	tag = '0.1.8',
 	dependencies = {
-		'nvim-lua/plenary.nvim'
+		'nvim-lua/plenary.nvim',
+		{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 	},
 	config = function()
-		require('telescope').setup({ defaults = { file_ignore_patterns = {".uid","ffmpeg/", "emsdk"} } })
+		pcall(require('telescope').load_extension, 'fzf')
 		local builtin = require('telescope.builtin')
+		local ivy = require('telescope.themes').get_ivy({
+			layout_config = {
+				preview_cutoff = 60,
+				prompt_position = "bottom"
+			}
+		})
+		require('telescope').setup({
+			defaults = { file_ignore_patterns = { ".uid", "ffmpeg/", "emsdk" } },
+			pickers = { find_files = ivy, git_files = ivy, live_grep = ivy, grep_string = ivy }
+		})
 
 		vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-		vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-		vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+		vim.keymap.set('n', '<leader>pg', builtin.git_files, {})
 
-		vim.keymap.set('n', '<leader>ps', function()
+		vim.keymap.set('n', '<leader>ps', builtin.live_grep)
+		vim.keymap.set('n', '<leader>pS', function()
 			builtin.grep_string({ search = vim.fn.input("Grep > ") })
 		end)
 

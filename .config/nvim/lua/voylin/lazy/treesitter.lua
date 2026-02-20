@@ -3,8 +3,6 @@ return {
 	build = ':TSUpdate',
 	dependencies = {
 		'nvim-treesitter/nvim-treesitter-textobjects',
-		'nvim-treesitter/playground',
-
 		{
 			"nvim-treesitter/nvim-treesitter-context",
 			opts = {
@@ -17,32 +15,19 @@ return {
 	config = function()
 		require('nvim-treesitter.configs').setup({
 			ensure_installed = {
-				'c',
-				'cpp',
-				'zig',
-				'lua',
-				'vim',
-				'rust',
-				'yaml',
-				'query',
-				'vimdoc',
-				'markdown',
-				'gdscript',
-				'gdshader',
-				'godot_resource',
+				'c', 'cpp',
+				'zig', 'rust',
+				'vim', 'vimdoc', 'lua',
+				'yaml', 'query', 'markdown',
+				'gdscript', 'gdshader', 'godot_resource',
 			},
 			sync_install = false,
 			auto_install = true,
 			highlight = {
 				enable = true,
-				additional_vim_regex_highlighting = {
-					'yaml',
-					'markdown',
-				},
+				additional_vim_regex_highlighting = { 'yaml', 'markdown' },
 			},
-			indent = {
-				enable = true,
-			},
+			indent = { enable = true },
 			textobjects = {
 				move = {
 					enable              = true,

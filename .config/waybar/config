@@ -1,0 +1,36 @@
+{
+    "layer": "top",
+    "position": "top",
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["pulseaudio", "network", "clock", "tray"],
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "format": "{name}",
+		"enable-bar-scroll": true,
+		"disable-scroll-wraparound": true
+    },
+
+    "pulseaudio": {
+        "format": "♪:{volume:2d}%",
+        "format-muted": " ♪:MUTED",
+        "scroll-step": 2,
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+		"on-click-right": "pavucontrol"
+    },
+
+    "network": {
+        // Wireless
+        "format-wifi": "W:{signalStrength}%",
+        // Ethernet
+        "format-ethernet": "E:{speed}",
+        "format-disconnected": "",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%Y-%m-%d  %H:%M:%S %a}",
+        "interval": 1
+    }
+}

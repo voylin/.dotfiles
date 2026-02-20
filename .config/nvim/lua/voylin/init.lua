@@ -32,7 +32,6 @@ autocmd('LspAttach', {
 		vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
 		vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
 		vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
-		vim.keymap.set('i', '<C-k>', function() vim.lsp.buf.hover() end, opts)
 
 		-- Diagnostic keymaps
 		vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -41,6 +40,3 @@ autocmd('LspAttach', {
 		vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 	end
 })
-
-vim.g.netrw_sort_sequence = "[.]$,[\\/ ]$,*"
-vim.g.netrw_sort_options = "i"
