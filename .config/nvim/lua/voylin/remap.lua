@@ -4,10 +4,8 @@ vim.g.maplocalleader = ' '
 -- Insert escaping
 vim.keymap.set('i', 'jj', '<Esc>')
 
--- Highlight when yanking (copying) text
---  `yap` to copy entire paragraph
+-- Highlight when yanking (copying) text `yap` to copy entire paragraph
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
 	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
 	callback = function()
 		vim.hl.on_yank()
@@ -42,14 +40,7 @@ vim.keymap.set('i', '<C-c>', '<Esc>')
 vim.keymap.set('n', '<leader>g', ':LazyGit<CR>')
 
 -- Show hide listchars
-vim.keymap.set("n", "<leader>l", function()
-	vim.opt.list = not vim.opt.list:get()
-end, { desc = "Toggle listchars" })
-
--- Disabling tabs
-vim.keymap.set('n', '<C-t>', '<Nop>')
-vim.keymap.set('n', 'gt', '<Nop>')
-vim.keymap.set('n', 'gT', '<Nop>')
+vim.keymap.set("n", "<leader>l", function() vim.opt.list = not vim.opt.list:get() end)
 
 -- Commenting
 vim.keymap.set('n', '<leader>c', 'gc', { remap = true })

@@ -57,8 +57,22 @@ return {
 		-- Godot
 		vim.lsp.config('gdscript', { capabilities = capabilities })
 		vim.lsp.enable('gdscript')
-		local godot_project = vim.fn.glob(vim.fn.getcwd() .. '/project.godot')
-		if godot_project ~= '' then vim.fn.serverstart '127.0.0.1:6004' end
+		local godot_project = vim.fs.find(
+			'project.godot',
+			{
+				type = 'file',
+				path = vim.fn.getcwd(),
+				limit = 1,
+				upward = false,
+			}
+		)
+		if #godot_project > 0 then
+			local rel = vim.fn.fnamemodify(godot_project[1], ':.')
+			local depth = select(2, rel:gsub('/', ''))
+			if depth <= 1 then
+				vim.fn.serverstart('127.0.0.1:6004')
+			end
+		end
 
 		-- Diagnostics UI
 		vim.diagnostic.config({

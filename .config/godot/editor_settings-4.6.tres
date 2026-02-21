@@ -85,6 +85,7 @@ _script_setup_templates_dictionary = {
 "Control": "0NodeDefault",
 "HSplitContainer": "0NodeDefault",
 "ItemList": "0NodeDefault",
+"Label": "0NodeDefault",
 "Node": "0ObjectEmpty",
 "Node3D": "0NodeDefault",
 "Panel": "0NodeDefault",
