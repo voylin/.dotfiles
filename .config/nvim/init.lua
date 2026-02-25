@@ -29,15 +29,15 @@ vim.opt.smartcase = true
 vim.opt.updatetime = 150
 vim.opt.timeoutlen = 1000
 
-vim.opt.list = true
-vim.opt.listchars = {
-	tab = '»  ',
-	leadmultispace = '≈   ',
-	trail = '·',
-	extends = '›',
-	precedes = '‹',
-	nbsp = '␣',
-}
+--vim.opt.list = true
+--vim.opt.listchars = {
+--	tab = '»  ',
+--	leadmultispace = '≈   ',
+--	trail = '·',
+--	extends = '›',
+--	precedes = '‹',
+--	nbsp = '␣',
+--}
 
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 10
@@ -110,6 +110,8 @@ vim.keymap.set('n', '<leader>g', ':LazyGit<CR>')
 
 vim.keymap.set('n', '<leader>e', require('oil').open)
 
+-- For Godot projects, add a file called `.ignore` to your project and
+-- add `*.uid` to it to ignore those files in the file picker.
 vim.keymap.set('n', '<leader>pf', function() require('mini.pick').builtin.files() end)
 vim.keymap.set('n', '<leader>pg', function() require('mini.pick').builtin.files({ tool = 'git' }) end)
 vim.keymap.set('n', '<leader>ps', function() require('mini.pick').builtin.grep_live() end)
@@ -127,8 +129,8 @@ local ts = require('nvim-treesitter')
 ts.install({
 	'c', 'cpp',
 	'zig', 'rust',
-	'vim', 'vimdoc', 'lua',
 	'yaml', 'query', 'markdown',
+	'vim', 'vimdoc', 'lua', 'python',
 	'gdscript', 'gdshader', 'godot_resource',
 })
 vim.api.nvim_create_autocmd('FileType', {
