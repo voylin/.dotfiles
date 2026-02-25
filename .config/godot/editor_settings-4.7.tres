@@ -57,6 +57,8 @@ run/window_placement/rect = 2
 run/window_placement/game_embed_mode = 1
 network/connection/network_mode = 1
 project_manager/default_renderer = "gl_compatibility"
+text_editor/appearance/drag_and_drop_info/show_drag_and_drop_info = true
+network/language_server/show_native_symbols_in_editor = true
 export/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk"
 export/android/android_sdk_path = "/home/voylin/Android/Sdk"
 export/android/debug_keystore = "/home/voylin/.local/share/godot/keystores/debug.keystore"
@@ -88,7 +90,6 @@ _script_setup_templates_dictionary = {
 "Tree": "0NodeDefault"
 }
 _script_setup_use_script_templates = true
-network/language_server/show_native_symbols_in_editor = true
 _export_preset_advanced_mode = false
 export/android/scrcpy/screen_size = "1920x1080/120"
 export/macos/actool = ""

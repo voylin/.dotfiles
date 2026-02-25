@@ -45,7 +45,8 @@ export PATH=$PATH:/home/voylin/Android/Sdk/cmdline-tools/latest/bin/
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-alias vim='nvim'
+#alias vim='nvim'
+alias vim='~/nvim-linux-x86_64.appimage'
 alias vvim='nvim .'
 
 export FZF_DEFAULT_OPTS='--color=light'
