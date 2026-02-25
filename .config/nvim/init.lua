@@ -90,6 +90,7 @@ vim.pack.add({
 	{ src = 'https://github.com/nvim-mini/mini.nvim' },
 	{ src = 'https://github.com/kdheepak/lazygit.nvim' },
 	{ src = 'https://github.com/neovim/nvim-lspconfig' },
+	{ src = 'https://github.com/mfussenegger/nvim-dap' },
 	{ src = 'https://github.com/williamboman/mason.nvim' },
 	{ src = 'https://github.com/voylin/godot_color_theme' },
 	{ src = 'https://github.com/folke/todo-comments.nvim' },
@@ -166,6 +167,26 @@ require('treesitter-context').setup({
 	trim_scope = "inner",
 	mode = "cursor",
 })
+
+-------------------------------------------------------------------------------
+------------ DAP --------------------------------------------------------------
+-------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>db', require('dap').toggle_breakpoint)
+vim.keymap.set('n', '<F6>', require('dap').continue)
+vim.keymap.set('n', '<F7>', require('dap').step_over)
+vim.keymap.set('n', '<F8>', require('dap').step_into)
+vim.keymap.set('n', '<F9>', require('dap').step_out)
+vim.keymap.set('n', '<F10>', function() require('dap').terminate() end)
+
+-- Godot stuff
+require('dap').adapters.godot = { type = 'server', host = '127.0.0.1', port = 6007 }
+require('dap').configurations.gdscript = { {
+	type = 'godot',
+	request = 'launch',
+	name = 'Launch scene',
+	project = '${workspaceFolder}/src',
+	launch_scene = true,
+} }
 
 -------------------------------------------------------------------------------
 ------------ LSP --------------------------------------------------------------
