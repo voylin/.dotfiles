@@ -3,6 +3,7 @@ vim.g.maplocalleader = ' '
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.guicursor = ''
 vim.opt.signcolumn = 'yes'
 vim.opt.colorcolumn = '80'
 vim.opt.winborder = 'rounded'
@@ -57,7 +58,7 @@ vim.opt.completeopt = {      -- Fuzzy autocomplete.
 -------------------------------------------------------------------------------
 
 vim.keymap.set('i', 'jj', '<Esc>')
-vim.keymap.set('n', '<leader>w', ':w<CR>')
+vim.keymap.set('n', '<leader>w', ':silent w<CR>')
 vim.keymap.set('n', '<leader>q', ':q<CR>')
 
 -- Moving visual selection --
@@ -79,6 +80,14 @@ vim.keymap.set({ 'n', 'v' }, '<leader>yap', '\"+yap')
 -- Renaming --
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('n', '<leader>S', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Tab to confirm autocompletion --
+vim.keymap.set('i', '<Tab>', function()
+	if vim.fn.pumvisible() == 1 then
+		return vim.fn.complete_info()['selected'] == -1 and '<C-n><C-y>' or '<C-y>'
+	end
+	return '<Tab>'
+end, { expr = true })
 
 
 -------------------------------------------------------------------------------
@@ -168,9 +177,11 @@ require('treesitter-context').setup({
 	mode = "cursor",
 })
 
+
 -------------------------------------------------------------------------------
 ------------ DAP --------------------------------------------------------------
 -------------------------------------------------------------------------------
+
 vim.keymap.set('n', '<leader>db', require('dap').toggle_breakpoint)
 vim.keymap.set('n', '<F6>', require('dap').continue)
 vim.keymap.set('n', '<F7>', require('dap').step_over)
@@ -188,11 +199,12 @@ require('dap').configurations.gdscript = { {
 	launch_scene = true,
 } }
 
+
 -------------------------------------------------------------------------------
 ------------ LSP --------------------------------------------------------------
 -------------------------------------------------------------------------------
-vim.lsp.enable({ 'lua_ls', 'pyright', 'zls', 'clangd', 'gdscript' })
 
+vim.lsp.enable({ 'lua_ls', 'pyright', 'zls', 'clangd', 'gdscript' })
 vim.lsp.config('lua_ls', { -- For getting rid of the VIM warnings.
 	settings = {
 		Lua = {
@@ -218,7 +230,7 @@ if #godot_project > 0 then
 end
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-vim.keymap.set('n', '<C-a>', vim.lsp.buf.code_action)
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename)
 vim.keymap.set({ 'n', 'i' }, '<C-s>', vim.lsp.buf.signature_help)
 vim.keymap.set({ 'n', 'i' }, '<C-h>', vim.lsp.buf.hover)

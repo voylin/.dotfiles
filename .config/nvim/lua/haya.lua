@@ -22,9 +22,11 @@ local function save_data(data)
 end
 
 -- State --
+
 local config_data = load_data()
 
 local function get_list()
+	config_data = load_data()
 	local cwd = vim.fn.getcwd()
 	if not config_data[cwd] then config_data[cwd] = {} end
 	return config_data[cwd]
@@ -37,6 +39,7 @@ local function save_list(list)
 end
 
 -- Core --
+
 function M.add()
 	local list = get_list()
 	local current_file = vim.fn.expand("%:p")
@@ -64,6 +67,7 @@ function M.select(idx)
 end
 
 -- UI --
+
 local function close_ui()
 	if win_id and vim.api.nvim_win_is_valid(win_id) then
 		pcall(vim.api.nvim_win_close, win_id, true)
@@ -95,7 +99,7 @@ function M.toggle()
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, list)
 
 	-- Window sizing & positioning.
-	local width = 27 -- math.floor(vim.o.columns * 0.5)
+	local width = math.floor(vim.o.columns * 0.5)
 	local height = 7
 	local row = math.floor((vim.o.lines - height) / 2)
 	local col = math.floor((vim.o.columns - width) / 2)

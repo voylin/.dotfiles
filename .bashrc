@@ -47,7 +47,8 @@ alias grep='grep --color=auto'
 
 #alias vim='nvim'
 alias vim='~/nvim-linux-x86_64.appimage'
-alias vvim='nvim .'
+alias vvim='vim .'
+alias gvim='vim . --listen 127.0.0.1:6004'
 
 export FZF_DEFAULT_OPTS='--color=light'
 alias search='cd "$(find . -mindepth 1 -maxdepth 2 -type d | fzf)"'
