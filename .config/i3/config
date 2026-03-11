@@ -1,8 +1,8 @@
 # Mod1 is Alt, Mod4 is super
 set $mod Mod4
-tiling_drag off 
+tiling_drag off
 
-font pango:Hack 9 
+font pango:Hack 9
 
 # Move current window to scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -37,12 +37,12 @@ floating_modifier $mod
 
 bindsym $mod+Return exec alacritty
 bindsym $mod+q kill
-bindsym $mod+shift+d exec --no-startup-id dmenu_run -i -fn 'Hack-13.5' -sb '#047700' -p 'System: ' 
+bindsym $mod+shift+d exec --no-startup-id dmenu_run -i -fn 'Hack-13.5' -sb '#047700' -p 'System: '
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'Hack-13.5' -i -sb '#047700' -p 'Menu: '"
 bindsym $mod+shift+t exec --no-startup-id ~/switch_theme.sh
 
 bindsym $mod+c exec chromium
-bindsym $mod+F1 exec alacritty 
+bindsym $mod+F1 exec alacritty
 bindsym $mod+F2 exec godot
 bindsym $mod+F3 exec thunar
 bindsym $mod+F4 exec kdenlive
@@ -91,7 +91,7 @@ bindsym $mod+Shift+6 move container to workspace number 6
 bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Ctrl+1 move container to workspace number 1; Workspace 1 
+bindsym $mod+Ctrl+1 move container to workspace number 1; Workspace 1
 bindsym $mod+Ctrl+2 move container to workspace number 2; Workspace 2
 bindsym $mod+Ctrl+3 move container to workspace number 3; Workspace 3
 bindsym $mod+Ctrl+4 move container to workspace number 4; Workspace 4
@@ -150,7 +150,7 @@ client.focused #00FF00 #277732 #FFFFFF #2FF43C #46FF46
 bar {
    position top
    status_command i3status
-   font pango:Hack 9 
+   font pango:Hack 9
 
    colors {
       background #000000
@@ -169,4 +169,3 @@ bar {
 # sudo pacman -Rns $(pacman -Qtdq)
 # sudo paccache -rk 2
 # sudo yay -Sc
-

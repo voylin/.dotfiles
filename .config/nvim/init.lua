@@ -2,7 +2,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.opt.number = true
-vim.opt.relativenumber = true
 vim.opt.guicursor = ''
 vim.opt.signcolumn = 'yes'
 vim.opt.colorcolumn = '80'
@@ -45,20 +44,14 @@ vim.opt.sidescrolloff = 10
 vim.opt.cursorline = true
 
 vim.opt.inccommand = 'split' -- Get list on renaming.
-vim.opt.completeopt = {      -- Fuzzy autocomplete.
-	'menu',
-	'menuone',
-	'noselect',
-	'fuzzy',
-	'nearest',
-}
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect', }
 
 -------------------------------------------------------------------------------
 ------------ KEYMAPS ----------------------------------------------------------
 -------------------------------------------------------------------------------
 
 vim.keymap.set('i', 'jj', '<Esc>')
-vim.keymap.set('n', '<leader>w', ':silent w<CR>')
+vim.keymap.set('n', '<leader>w', ':w<CR>')
 vim.keymap.set('n', '<leader>q', ':q<CR>')
 
 -- Moving visual selection --
@@ -81,22 +74,15 @@ vim.keymap.set({ 'n', 'v' }, '<leader>yap', '\"+yap')
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('n', '<leader>S', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]])
 
--- Tab to confirm autocompletion --
-vim.keymap.set('i', '<Tab>', function()
-	if vim.fn.pumvisible() == 1 then
-		return vim.fn.complete_info()['selected'] == -1 and '<C-n><C-y>' or '<C-y>'
-	end
-	return '<Tab>'
-end, { expr = true })
-
 
 -------------------------------------------------------------------------------
 ------------ PACKAGES ---------------------------------------------------------
 -------------------------------------------------------------------------------
 
 vim.pack.add({
+	{ src = 'https://github.com/saghen/blink.cmp', },
 	{ src = 'https://github.com/stevearc/oil.nvim' },
-	{ src = 'https://github.com/nvim-mini/mini.nvim' },
+	{ src = 'https://github.com/nvim-mini/mini.pick' },
 	{ src = 'https://github.com/kdheepak/lazygit.nvim' },
 	{ src = 'https://github.com/neovim/nvim-lspconfig' },
 	{ src = 'https://github.com/mfussenegger/nvim-dap' },
@@ -113,7 +99,6 @@ require("haya").setup()
 require('oil').setup()
 require('mason').setup()
 require('todo-comments').setup()
-require('mini.completion').setup()
 require('mini.pick').setup()
 
 vim.keymap.set('n', '<leader>g', ':LazyGit<CR>')
@@ -133,6 +118,17 @@ require('godot_theme').setup({
 	base_color = '#363d4a',
 	accent_color = '#70bafa',
 	contrast = 0.2,
+})
+
+require('blink.cmp').setup({
+	fuzzy = { implementation = "lua" },
+	keymap = {
+		preset = 'enter',
+		['<Tab>'] = { 'accept', 'fallback' },
+	},
+	completion = { documentation = { auto_show = true }, },
+	sources = { default = { 'lsp', 'path', 'snippets', 'buffer' }, },
+	signature = { enabled = true },
 })
 
 local ts = require('nvim-treesitter')
@@ -207,10 +203,7 @@ require('dap').configurations.gdscript = { {
 vim.lsp.enable({ 'lua_ls', 'pyright', 'zls', 'clangd', 'gdscript' })
 vim.lsp.config('lua_ls', { -- For getting rid of the VIM warnings.
 	settings = {
-		Lua = {
-			workspace = {
-				library = vim.api.nvim_get_runtime_file('', true) }
-		}
+		Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } }
 	}
 })
 
@@ -226,7 +219,7 @@ local godot_project = vim.fs.find(
 if #godot_project > 0 then
 	local rel = vim.fn.fnamemodify(godot_project[1], ':.')
 	local depth = select(2, rel:gsub('/', ''))
-	if depth <= 1 then vim.fn.serverstart('127.0.0.1:6004') end
+	if depth <= 1 then pcall(vim.fn.serverstart, '127.0.0.1:6004') end
 end
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
@@ -245,18 +238,6 @@ vim.keymap.set('n', '<leader>pv', function() end)
 ------------ EXTRA'S ----------------------------------------------------------
 -------------------------------------------------------------------------------
 
--- Markdown navigation --
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*.md",
-	callback = function()
-		vim.keymap.set('n', 'j', 'gj', { buffer = true })
-		vim.keymap.set('n', 'k', 'gk', { buffer = true })
-		vim.opt_local.wrap = true
-		vim.opt_local.linebreak = true
-		vim.opt_local.colorcolumn = "" -- This disables the column line
-	end,
-})
-
 -- Remove trailing spaces and tabs on save --
 vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", command = [[%s/\s\+$//e]] })
 
@@ -271,7 +252,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Format on save --
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function(args)
-		vim.lsp.buf.format({ bufnr = args.buf, async = false })
+		local clients = vim.lsp.get_clients({ bufnr = args.buf })
+		for _, client in ipairs(clients) do
+			if client:supports_method("textDocument/formatting", args.buf) then
+				vim.lsp.buf.format({
+					bufnr = args.buf,
+					async = false,
+				})
+				return
+			end
+		end
 	end,
 })
 
@@ -296,4 +286,16 @@ vim.api.nvim_create_autocmd('PackChanged', {
 -- Disable next lines being commented after comment --
 vim.api.nvim_create_autocmd('FileType', {
 	callback = function() vim.opt_local.formatoptions:remove({ 'o', 'r' }) end,
+})
+
+-- Markdown navigation --
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*.md",
+	callback = function()
+		vim.keymap.set('n', 'j', 'gj', { buffer = true })
+		vim.keymap.set('n', 'k', 'gk', { buffer = true })
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+		vim.opt_local.colorcolumn = "" -- This disables the column line
+	end,
 })
