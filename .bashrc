@@ -45,8 +45,7 @@ export PATH=$PATH:/home/voylin/Android/Sdk/cmdline-tools/latest/bin/
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-#alias vim='nvim'
-alias vim='~/nvim-linux-x86_64.appimage'
+alias vim='nvim'
 alias vvim='vim .'
 alias gvim='vim . --listen 127.0.0.1:6004'
 
@@ -61,3 +60,11 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
 alias dotfiles_lazygit='GIT_DIR=$HOME/dotfiles GIT_WORK_TREE=$HOME lazygit'
 alias dotfiles_show_untracked='dotfiles config --local status.showUntrackedFiles all'
 alias dotfiles_hide_untracked='dotfiles config --local status.showUntrackedFiles no'
+
+#alias yt='yt-dlp -f "bestvideo[vcodec^=avc1]+bestaudio/best"'
+yt() {
+  local url="$1"
+  local output="${2:-output.mp4}"
+
+  yt-dlp -o - "$url" | ffmpeg -i pipe:0 -g 30 -c:v libx264 -preset fast -crf 18 -c:a copy "$output"
+}

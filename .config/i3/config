@@ -51,6 +51,7 @@ bindsym $mod+F4 exec kdenlive
 # Elecom HUGE Trackball Mouse
 bindsym --whole-window button10 exec --no-startup-id xdotool key ctrl+k
 bindsym --whole-window button11 exec --no-startup-id xdotool key Delete
+bindsym --whole-window Shift+button11 exec --no-startup-id xdotool key Shift+Delete
 
 bindsym $mod+shift+Kanji exec /usr/lib/mozc/mozc_tool --mode=dictionary_tool
 

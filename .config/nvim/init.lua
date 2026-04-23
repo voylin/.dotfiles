@@ -2,6 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.guicursor = ''
 vim.opt.signcolumn = 'yes'
 vim.opt.colorcolumn = '80'
@@ -29,22 +30,22 @@ vim.opt.smartcase = true
 vim.opt.updatetime = 150
 vim.opt.timeoutlen = 1000
 
---vim.opt.list = true
---vim.opt.listchars = {
---	tab = '»  ',
---	leadmultispace = '≈   ',
---	trail = '·',
---	extends = '›',
---	precedes = '‹',
---	nbsp = '␣',
---}
+vim.opt.list = true
+vim.opt.listchars = {
+	tab = '»  ',
+	leadmultispace = '≈   ',
+	trail = '·',
+	extends = '›',
+	precedes = '‹',
+	nbsp = '␣',
+}
 
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 10
 vim.opt.cursorline = true
 
 vim.opt.inccommand = 'split' -- Get list on renaming.
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect', }
+vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
 
 -------------------------------------------------------------------------------
 ------------ KEYMAPS ----------------------------------------------------------
@@ -124,9 +125,13 @@ require('blink.cmp').setup({
 	fuzzy = { implementation = "lua" },
 	keymap = {
 		preset = 'enter',
-		['<Tab>'] = { 'accept', 'fallback' },
+		['<Tab>'] = { 'select_and_accept', 'fallback' },
+		['<CR>'] = { 'select_and_accept', 'fallback' },
 	},
-	completion = { documentation = { auto_show = true }, },
+	completion = {
+		documentation = { auto_show = true },
+		accept = { auto_brackets = { enabled = true } },
+	},
 	sources = { default = { 'lsp', 'path', 'snippets', 'buffer' }, },
 	signature = { enabled = true },
 })
@@ -200,20 +205,28 @@ require('dap').configurations.gdscript = { {
 ------------ LSP --------------------------------------------------------------
 -------------------------------------------------------------------------------
 
-vim.lsp.enable({ 'lua_ls', 'pyright', 'zls', 'clangd', 'gdscript' })
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+local servers = { 'lua_ls', 'pyright', 'zls', 'clangd', 'gdscript', 'html', 'cssls', 'ts_ls', 'ruff' }
+for _, lsp in ipairs(servers) do
+	vim.lsp.config(lsp, { capabilities = capabilities })
+end
+
+vim.lsp.config('clangd', { capabilities = capabilities, cmd = { "clangd", "--header-insertion=never" } })
 vim.lsp.config('lua_ls', { -- For getting rid of the VIM warnings.
 	settings = {
 		Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } }
 	}
 })
 
-vim.lsp.config('clangd', { cmd = { "clangd", "--header-insertion=never" } })
+vim.lsp.enable(servers)
+vim.lsp.enable('clangd')
+
 local godot_project = vim.fs.find(
 	'project.godot', {
 		type = 'file',
 		path = vim.fn.getcwd(),
 		limit = 1,
-		upward = false,
+		upward = true,
 	}
 )
 if #godot_project > 0 then
@@ -231,7 +244,6 @@ vim.keymap.set('n', '<C-o>', vim.diagnostic.open_float)
 
 vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end)
 vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end)
-vim.keymap.set('n', '<leader>pv', function() end)
 
 
 -------------------------------------------------------------------------------
@@ -250,17 +262,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Format on save --
-vim.api.nvim_create_autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup('LspFormat', { clear = true }),
 	callback = function(args)
-		local clients = vim.lsp.get_clients({ bufnr = args.buf })
-		for _, client in ipairs(clients) do
-			if client:supports_method("textDocument/formatting", args.buf) then
-				vim.lsp.buf.format({
-					bufnr = args.buf,
-					async = false,
-				})
-				return
-			end
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client:supports_method("textDocument/formatting") then
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = args.buf,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+				end,
+			})
 		end
 	end,
 })
@@ -299,3 +311,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		vim.opt_local.colorcolumn = "" -- This disables the column line
 	end,
 })
+
+-- TeleDot --
+require('teledot')
+vim.keymap.set("n", "<leader>t", ":Teledot<CR>")
